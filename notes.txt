@@ -1,0 +1,10 @@
+shadcnui - npx shacn-ui@latest init
+uploadthing package for file upload next js developers
+database setup in lib folder
+What is a webhoook ?
+Event triggering - request with payload - event processing
+//Check the app api folder on using webhook with clerk
+
+
+Using clerk i was able to authnticate users and know when they are present in the app
+i.e using the SignedIn and SignedOut component
