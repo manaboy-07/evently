@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/lib/actions/user.actions";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 import { NextResponse } from "next/server";
 import { clerkClient } from "@clerk/nextjs/server";
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occurred -- no svix headers", {
+    return new Response("Error occured -- no svix headers", {
       status: 400,
     });
   }
@@ -53,12 +53,11 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  //! Most important part
   const { id } = evt.data;
   const eventType = evt.type;
-  //todo Do something when a user is created
+
   if (eventType === "user.created") {
-    const { id, email_addresses, username, image_url, first_name, last_name } =
+    const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
     const user = {
@@ -70,7 +69,6 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    //todo create a new Database user once a user is created
     const newUser = await createUser(user);
 
     if (newUser) {
@@ -82,6 +80,29 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ message: "OK", user: newUser });
+  }
+
+  if (eventType === "user.updated") {
+    const { id, image_url, first_name, last_name, username } = evt.data;
+
+    const user = {
+      firstName: first_name!,
+      lastName: last_name!,
+      username: username!,
+      photo: image_url,
+    };
+
+    const updatedUser = await updateUser(id, user);
+
+    return NextResponse.json({ message: "OK", user: updatedUser });
+  }
+
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+
+    const deletedUser = await deleteUser(id!);
+
+    return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
   return new Response("", { status: 200 });
