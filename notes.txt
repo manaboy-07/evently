@@ -8,3 +8,17 @@ Event triggering - request with payload - event processing
 
 Using clerk i was able to authnticate users and know when they are present in the app
 i.e using the SignedIn and SignedOut component
+
+When you add new env varviables is best to redeploy, also check clerk docs becos u protectedd the api route for the webhook
+
+
+OVERVIEW OF APPLICATION
+
+When a user creates and account using google or whatnot,
+a clerkId is generated fro him or her and is added to the user model of the Event database.
+The user  is cached .
+
+Using shadcn form , check the docs
+
+
+webhook folder is how we are creating the user
