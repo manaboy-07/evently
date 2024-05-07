@@ -1,7 +1,24 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import Collections from "@/components/shared/Collections";
 import Link from "next/link";
-function ProfilePage() {
+import { IOrder } from "@/lib/database/models/order.model";
+import { auth } from "@clerk/nextjs/server";
+import { getEventsByUser } from "@/lib/actions/event.actions";
+import { SearchParamProps } from "@/types";
+import { getOrdersByUser } from "@/lib/actions/order.actions";
+async function ProfilePage({ searchParams }: SearchParamProps) {
+  const { sessionClaims } = auth();
+  const userId = sessionClaims?.userId as string;
+
+  const ordersPage = Number(searchParams?.ordersPage) || 1;
+  const eventsPage = Number(searchParams?.eventsPage) || 1;
+
+  const orders = await getOrdersByUser({ userId, page: ordersPage });
+
+  const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];
+  const organizedEvents = await getEventsByUser({ userId, page: eventsPage });
+
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
@@ -15,7 +32,7 @@ function ProfilePage() {
       </section>
 
       <section className="wrapper my-8">
-        <Collection
+        <Collections
           data={orderedEvents}
           emptyTitle="No event tickets purchased yet"
           emptyStateSubtext="No worries - plenty of exciting events to explore!"
@@ -38,7 +55,7 @@ function ProfilePage() {
       </section>
 
       <section className="wrapper my-8">
-        <Collection
+        <Collections
           data={organizedEvents?.data}
           emptyTitle="No events have been created yet"
           emptyStateSubtext="Go create some now"

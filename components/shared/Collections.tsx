@@ -1,5 +1,6 @@
 import React from "react";
 import { IEvent } from "@/lib/database/models/event.model";
+import Card from "./Card";
 type CollectionProps = {
   data: IEvent[];
   emptyTitle: string;
@@ -41,7 +42,7 @@ const Collections = ({
           </ul>
 
           {totalPages > 1 && (
-            //   <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
+              <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
             <p>hello</p>
           )}
         </div>

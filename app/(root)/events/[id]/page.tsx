@@ -1,27 +1,25 @@
-import React from "react";
-// import CheckoutButton from "@/components/shared/CheckoutButton";
-import Collections from "@/components/shared/Collections";
+import CheckoutButton from "@/components/shared/CheckoutButton";
+import Collection from "@/components/shared/Collection";
 import {
   getEventById,
   getRelatedEventsByCategory,
 } from "@/lib/actions/event.actions";
 import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
-import { getEventbyId } from "@/lib/actions/event.actions";
 import Image from "next/image";
 
 const EventDetails = async ({
   params: { id },
   searchParams,
 }: SearchParamProps) => {
-  const event = await getEventbyId(id);
+  const event = await getEventById(id);
 
-  const relatedEvents = getRelatedEventsByCategory({
+  const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event.category._id,
     eventId: event._id,
     page: searchParams.page as string,
   });
-  console.log(event);
+
   return (
     <>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
@@ -57,7 +55,7 @@ const EventDetails = async ({
               </div>
             </div>
 
-            {/* <CheckoutButton event={event} /> */}
+            <CheckoutButton event={event} />
 
             <div className="flex flex-col gap-5">
               <div className="flex gap-2 md:gap-3">
@@ -105,7 +103,7 @@ const EventDetails = async ({
       <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Related Events</h2>
 
-        <Collections
+        <Collection
           data={relatedEvents?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
