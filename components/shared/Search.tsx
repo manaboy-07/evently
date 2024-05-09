@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import React from "react";
 const Search = ({
   placeholder = "Search title...",
 }: {

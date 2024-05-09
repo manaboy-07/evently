@@ -1,6 +1,7 @@
 import { IEvent } from "@/lib/database/models/event.model";
 import { formatDateTime } from "@/lib/utils";
-import { auth } from "@clerk/nextjs/server";
+// import { auth } from "@clerk/nextjs/server";
+// import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,12 +11,15 @@ type CardProps = {
   event: IEvent;
   hasOrderLink?: boolean;
   hidePrice?: boolean;
+  userId?: number | string;
 };
 
-const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
-  const { sessionClaims } = auth();
-  const userId = sessionClaims?.userId as string;
-  //if the user id == organiserid
+const Card = ({ event, hasOrderLink, hidePrice, userId }: CardProps) => {
+  // const { sessionClaims } = auth();
+  // const headersList = headers();
+  // console.log(headersList);
+  // const userId = sessionClaims?.userId as string;
+
   const isEventCreator = userId === event.organizer._id.toString();
 
   return (
@@ -26,7 +30,6 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
         className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
       />
       {/* IS EVENT CREATOR ... */}
-      {/* find an event creator */}
 
       {isEventCreator && !hidePrice && (
         <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-white p-3 shadow-sm transition-all">
@@ -70,7 +73,6 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
             {event.organizer.firstName} {event.organizer.lastName}
           </p>
 
-          {/* if a user has bought an event */}
           {hasOrderLink && (
             <Link href={`/orders?eventId=${event._id}`} className="flex gap-2">
               <p className="text-primary-500">Order Details</p>

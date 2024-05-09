@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import Pagination from "./Pagination";
 import { IEvent } from "@/lib/database/models/event.model";
 import Card from "./Card";
 type CollectionProps = {
@@ -10,6 +12,7 @@ type CollectionProps = {
   totalPages?: number;
   urlParamName?: string;
   collectionType?: "Events_Organized" | "My_Tickets" | "All_Events";
+  userId?: number | string;
 };
 const Collections = ({
   data,
@@ -19,10 +22,11 @@ const Collections = ({
   totalPages = 0,
   collectionType,
   urlParamName,
+  userId,
 }: CollectionProps) => {
   return (
     <>
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         <div className="flex flex-col items-center gap-10">
           <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
             {data.map((event) => {
@@ -32,6 +36,7 @@ const Collections = ({
               return (
                 <li key={event._id} className="flex justify-center">
                   <Card
+                    userId={userId}
                     event={event}
                     hasOrderLink={hasOrderLink}
                     hidePrice={hidePrice}
@@ -42,8 +47,11 @@ const Collections = ({
           </ul>
 
           {totalPages > 1 && (
-              <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
-            <p>hello</p>
+            <Pagination
+              urlParamName={urlParamName}
+              page={page}
+              totalPages={totalPages}
+            />
           )}
         </div>
       ) : (

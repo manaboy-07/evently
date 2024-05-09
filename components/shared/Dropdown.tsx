@@ -1,3 +1,4 @@
+"use client";
 import React, { startTransition, useEffect, useState } from "react";
 type DropdownProps = {
   value?: string;

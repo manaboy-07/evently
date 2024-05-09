@@ -18,7 +18,7 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { Input } from "@/components/ui/input";
 import { eventDefaultValues } from "@/constants";
 import Dropdown from "./Dropdown";
-import { FileUploader } from "./FileUploader";
+import FileUploader from "./FileUploader";
 import { useState } from "react";
 import Image from "next/image";
 import "react-date-picker/dist/DatePicker.css";
@@ -42,7 +42,7 @@ type Props = {
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
-function EventForm({ userId, event, eventId, type }: Props) {
+export default function EventForm({ userId, event, eventId, type }: Props) {
   //date state
   const router = useRouter();
 
@@ -381,5 +381,3 @@ function EventForm({ userId, event, eventId, type }: Props) {
     </Form>
   );
 }
-
-export default EventForm;

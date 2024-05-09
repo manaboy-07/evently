@@ -1,13 +1,17 @@
-import CategoryFilter from "@/components/shared/CategoryFilter";
 import Collections from "@/components/shared/Collections";
+import CategoryFilter from "@/components/shared/CategoryFilter";
 import Search from "@/components/shared/Search";
+import { auth } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 async function Home({ searchParams }: SearchParamProps) {
+  const { sessionClaims } = auth();
+  const userId = sessionClaims?.userId as string;
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || "";
   const category = (searchParams?.category as string) || "";
@@ -17,7 +21,6 @@ async function Home({ searchParams }: SearchParamProps) {
     page: page,
     limit: 6,
   });
-  console.log(events);
 
   return (
     <>
@@ -53,7 +56,8 @@ async function Home({ searchParams }: SearchParamProps) {
           Trusted by <br /> Thousands of Events
         </h2>
         <div className="flex w-full flex-col gap-5 md:flex-row">
-          <Search /> <CategoryFilter />
+          <Search />
+          <CategoryFilter />
         </div>
 
         <Collections
@@ -62,8 +66,9 @@ async function Home({ searchParams }: SearchParamProps) {
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
           limit={6}
-          page={1}
+          page={page}
           totalPages={events?.totalPages}
+          userId={userId}
         />
       </section>
     </>

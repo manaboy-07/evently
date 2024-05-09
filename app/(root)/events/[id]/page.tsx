@@ -1,5 +1,6 @@
 import CheckoutButton from "@/components/shared/CheckoutButton";
-import Collection from "@/components/shared/Collection";
+
+import Collections from "@/components/shared/Collections";
 import {
   getEventById,
   getRelatedEventsByCategory,
@@ -13,6 +14,7 @@ const EventDetails = async ({
   searchParams,
 }: SearchParamProps) => {
   const event = await getEventById(id);
+  console.log(event);
 
   const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event.category._id,
@@ -103,7 +105,7 @@ const EventDetails = async ({
       <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Related Events</h2>
 
-        <Collection
+        <Collections
           data={relatedEvents?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"

@@ -14,7 +14,7 @@ type FileUploaderProps = {
   setFiles: Dispatch<SetStateAction<File[]>>;
 };
 
-export function FileUploader({
+export default function FileUploader({
   imageUrl,
   onFieldChange,
   setFiles,
