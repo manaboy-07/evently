@@ -2,6 +2,7 @@ import EventForm from "@/components/shared/EventForm";
 import { getEventById } from "@/lib/actions/event.actions";
 import { UpdateEventParams } from "@/types";
 import { auth } from "@clerk/nextjs/server";
+
 type UpdateEventProps = {
   params: {
     id: string;
@@ -24,7 +25,12 @@ export default async function UpdateEvent({
       <div className="wrapper my-8">
         {/* the user must have signed in so a userId property would be created , */}
         {/* clerk allows us to be able to know the id of the user that is already in session */}
-        <EventForm type={"Update"} event={event} />
+        <EventForm
+          type={"Update"}
+          eventId={event._id}
+          event={event}
+          userId={userId}
+        />
       </div>
     </>
   );

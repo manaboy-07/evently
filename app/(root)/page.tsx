@@ -7,7 +7,7 @@ import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 async function Home({ searchParams }: SearchParamProps) {
   const { sessionClaims } = auth();
@@ -21,9 +21,11 @@ async function Home({ searchParams }: SearchParamProps) {
     page: page,
     limit: 6,
   });
-
+  const Loader = () => {
+    return <div>Loading...</div>;
+  };
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
         <div className="wrapper  grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
           <div className="flex flex-col justfy-center gap-8">
@@ -71,7 +73,7 @@ async function Home({ searchParams }: SearchParamProps) {
           userId={userId}
         />
       </section>
-    </>
+    </Suspense>
   );
 }
 

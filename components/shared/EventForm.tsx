@@ -21,9 +21,9 @@ import Dropdown from "./Dropdown";
 import FileUploader from "./FileUploader";
 import { useState } from "react";
 import Image from "next/image";
+import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import DatePicker from "react-date-picker";
 import { Checkbox } from "../ui/checkbox";
 import { updateEvent } from "@/lib/actions/event.actions";
 import { useRouter } from "next/navigation";
@@ -245,10 +245,8 @@ export default function EventForm({ userId, event, eventId, type }: Props) {
                     <DatePicker
                       value={field.value}
                       onChange={(date: Value) => field.onChange(date)}
-                      showTimeSelect
-                      timeInputLabel="Time:"
-                      dateFormat="MM/dd/yyyy h:mm aa"
-                      wrapperClassName="datePicker"
+                      format="MM/dd/yyyy"
+                      className="date-picker"
                     />
                   </div>
                 </FormControl>
@@ -277,10 +275,8 @@ export default function EventForm({ userId, event, eventId, type }: Props) {
                     <DatePicker
                       value={field.value}
                       onChange={(date: Value) => field.onChange(date)}
-                      showTimeSelect
-                      timeInputLabel="Time:"
-                      dateFormat="MM/dd/yyyy h:mm aa"
-                      wrapperClassName="datePicker"
+                      format="MM/dd/yyyy"
+                      className="date-picker"
                     />
                   </div>
                 </FormControl>

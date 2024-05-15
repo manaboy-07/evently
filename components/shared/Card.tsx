@@ -20,6 +20,23 @@ const Card = ({ event, hasOrderLink, hidePrice, userId }: CardProps) => {
   // console.log(headersList);
   // const userId = sessionClaims?.userId as string;
 
+  function convertToHumanReadable(dateString: string | Date): string {
+    const date: Date = new Date(dateString);
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZone: "UTC",
+    };
+
+    return date.toLocaleDateString("en-US", options);
+  }
+  console.log(event);
+  console.log(convertToHumanReadable(event.startDateTime));
   const isEventCreator = userId === event.organizer._id.toString();
 
   return (
@@ -59,7 +76,7 @@ const Card = ({ event, hasOrderLink, hidePrice, userId }: CardProps) => {
         )}
 
         <p className="p-medium-16 p-medium-18 text-grey-500">
-          {formatDateTime(event.startDateTime).dateTime}
+          {convertToHumanReadable(event.startDateTime)}
         </p>
 
         <Link href={`/events/${event._id}`}>
